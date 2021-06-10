@@ -7,24 +7,31 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
 ```
 
-## R Markdown
+```{r}
+# Read the data
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+ipf_lifts <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-08/ipf_lifts.csv")
 ```
 
-## Including Plots
+```{r}
+# EDA 
+str(ipf_lifts)
+view(ipf_lifts)
+summary(ipf_lifts)
 
-You can also embed plots, for example:
+#plots
+#Best deadlift by age in weight class: 90+.
+ipf_lifts %>% 
+  filter(weight_class_kg == "90+") %>%
+  ggplot(aes(x = age, y = best3deadlift_kg)) + 
+  geom_point()
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+#Best deadlift by age colorized by weight class. 
+ipf_lifts %>% 
+  ggplot(aes(x = age, y = best3deadlift_kg, color = weight_class_kg)) + 
+  geom_point()
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
