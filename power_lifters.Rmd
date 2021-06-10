@@ -8,6 +8,8 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+install.packages("ggpubr")
+library(ggpubr)
 ```
 
 ```{r}
@@ -33,5 +35,45 @@ ipf_lifts %>%
 ipf_lifts %>% 
   ggplot(aes(x = age, y = best3deadlift_kg, color = weight_class_kg)) + 
   geom_point()
+
+#Number of event types
+ipf_lifts %>% 
+  ggplot(aes(x = event, y = 1)) + 
+  geom_col()
+
+# Women and men distribution
+ipf_lifts %>%
+  ggplot(aes(x = sex, y = 1)) + 
+  geom_col()
+```
+
+```{r}
+#H1: The correlation between weight and best bench is smaller among women than among men.
+
+#Women lifters - bench press
+women_lifters <- ipf_lifts %>%
+  filter(sex == "F")
+  
+cor.test(women_lifters$bodyweight_kg, women_lifters$best3bench_kg, 
+                    method = "pearson")
+
+ggscatter(women_lifters, x = "bodyweight_kg", y = "best3bench_kg", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Bodyweight (kg)", ylab = "Best 3 benches (kg)")
+
+#Men lifters - bench press
+
+men_lifters <- ipf_lifts %>%
+  filter(sex == "M")
+
+cor.test(men_lifters$bodyweight_kg, men_lifters$best3bench_kg, 
+                    method = "pearson")
+
+ggscatter(men_lifters, x = "bodyweight_kg", y = "best3bench_kg", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Bodyweight (kg)", ylab = "Best 3 benches (kg)")
+
 ```
 
