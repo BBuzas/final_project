@@ -8,13 +8,11 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-install.packages("ggpubr")
 library(ggpubr)
 library(sjPlot)
 library(broom)
 library(performance)
 library(psych)
-install.packages("see")
 library(see)
 ```
 
