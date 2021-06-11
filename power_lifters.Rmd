@@ -157,3 +157,11 @@ tidy_men_complex_model <- tidy(men_complex_model, conf.int = TRUE, exponentiate 
 check_model(men_complex_model)
 ```
 
+```{r}
+## Conclusions
+
+# I had only one real hypothesis in the beginning: The correlation between weight and best bench is smaller among women than among men. As it turned out, that was true. Later, I wanted to try a wilder theory, that maybe there is a connection between body weight and the positions on events. I found out that there is some significant connection but it is very weak. 
+# I also wanted to analyze how body weight can predict the best bench press. Obviously I had a hypothesis before this analysis: Heavier power lifters reach better results in bench press. Not surprisingly my hypothesis was right both for women and men, but it could see that weight predicts better the bench press results for men than women. 
+# Finally, I wanted to investigate that body weight or best bench press predicts better the place on an event. The latter one was the better predictor on women and men events, too. 
+```
+
