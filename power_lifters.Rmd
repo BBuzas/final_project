@@ -124,5 +124,38 @@ summary(women_weight_bench_model)
 tidy_women_weight_bench_model <- tidy(women_weight_bench_model, conf.int = TRUE, exponentiate = TRUE)
 
 check_model(women_weight_bench_model)
+
+#Men
+men_weight_bench_model <- 
+  glm(best3bench_kg ~ bodyweight_kg, data = men_lifters_place, family = "gaussian")
+
+summary(men_weight_bench_model)
+
+tidy_men_weight_bench_model <- tidy(men_weight_bench_model, conf.int = TRUE, exponentiate = TRUE)
+
+check_model(men_weight_bench_model)
+
+```
+
+```{r}
+# Regression analysis: are best best bench and weight predict place? 
+
+#Women
+women_complex_model <- glm(place_num ~ bodyweight_kg + best3bench_kg, data = women_lifters_place, family = "gaussian")
+
+summary(women_complex_model)
+
+tidy_Women_complex_model <- tidy(women_complex_model, conf.int = TRUE, exponentiate = TRUE)
+
+check_model(women_complex_model)
+
+#Men
+men_complex_model <- glm(place_num ~ bodyweight_kg + best3bench_kg, data = men_lifters_place, family = "gaussian")
+
+summary(men_complex_model)
+
+tidy_men_complex_model <- tidy(men_complex_model, conf.int = TRUE, exponentiate = TRUE)
+
+check_model(men_complex_model)
 ```
 
