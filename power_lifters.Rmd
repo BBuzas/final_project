@@ -10,6 +10,12 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 install.packages("ggpubr")
 library(ggpubr)
+library(sjPlot)
+library(broom)
+library(performance)
+library(psych)
+install.packages("see")
+library(see)
 ```
 
 ```{r}
@@ -74,6 +80,49 @@ ggscatter(men_lifters, x = "bodyweight_kg", y = "best3bench_kg",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
           xlab = "Bodyweight (kg)", ylab = "Best 3 benches (kg)")
+```
 
+```{r}
+# Is there a correlation between body weight and place?
+
+# Women lifters - place: very weak negative correlation.
+women_lifters_place <- women_lifters %>%
+  filter(place != c("G", "DQ", "DD", "NS")) %>%
+  mutate(place_num = as.numeric(place), na.rm = TRUE)
+
+cor.test(women_lifters_place$bodyweight_kg, women_lifters_place$place_num, 
+                    method = "pearson")
+ggscatter(women_lifters_place, x = "bodyweight_kg", y = "place_num", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Bodyweight (kg)", ylab = "Place")
+
+# Men lifters - place: very weak posititive correlation
+men_lifters_place <- men_lifters %>%
+  filter(place != c("G", "DQ", "DD", "NS")) %>%
+  mutate(place_num = as.numeric(place), na.rm = TRUE)
+
+cor.test(men_lifters_place$bodyweight_kg, men_lifters_place$place_num, 
+                    method = "pearson")
+
+ggscatter(men_lifters_place, x = "bodyweight_kg", y = "place_num", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Bodyweight (kg)", ylab = "Place")
+
+```
+
+```{r}
+# Regression analysis - weight and best bench
+
+#Women
+women_weight_bench_model <- 
+  glm(best3bench_kg ~ bodyweight_kg, data = women_lifters_place, family = "gaussian")
+
+summary(women_weight_bench_model)
+
+tidy_women_weight_bench_model <- tidy(women_weight_bench_model, conf.int = TRUE, exponentiate = TRUE)
+
+check_model(women_weight_bench_model)
 ```
 
